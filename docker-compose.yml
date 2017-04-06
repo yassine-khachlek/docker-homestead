@@ -4,7 +4,7 @@ services:
 
     web:
         build:
-            context: ./
+            context: ./dockerfiles/
             dockerfile: web.docker
         volumes:
             - ./:/var/www
@@ -15,7 +15,7 @@ services:
 
     app:
         build:
-            context: ./
+            context: ./dockerfiles/
             dockerfile: app.docker
         volumes:
             - ./:/var/www
@@ -29,11 +29,13 @@ services:
             - cache
 
     database:
-        image: mysql:5.6
+        build:
+            context: ./dockerfiles/
+            dockerfile: database.docker
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         environment:
-            - "MYSQL_ROOT_PASSWORD=secret"
             - "MYSQL_DATABASE=homestead"
+            - "MYSQL_ROOT_PASSWORD=secret"
         ports:
             - "33061:3306"
 
